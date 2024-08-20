@@ -7,17 +7,28 @@ class Menu(pygame.sprite.Sprite):
         self.botao_jogar = pygame.Rect(450, 300, 300, 60)
         self.botao_como_jogar = pygame.Rect(450, 400, 300, 60)
         self.botao_voltar = pygame.Rect(450, 500, 300, 60)
+        self.botao_sair = pygame.Rect(450, 600, 300, 60)
         self.mostrar_como_jogar = False
+        self.mostrar_win = False
 
     def draw(self, tela):
         tela.fill((0, 0, 0))
 
-        if self.mostrar_como_jogar:
-            texto_como_jogar = self.fonte.render(
-                'Para jogar puxe a bolinha com o cursor como se fosse um estilingue e acerte os pontos verde',True, (255, 255, 255))
-            
-            tela.blit(texto_como_jogar, (50, 200))
+        if self.mostrar_win:
+            texto_win = self.fonte.render('Você venceu!', True, (255, 255, 255))
+            tela.blit(texto_win, (450, 300))
 
+            pygame.draw.rect(tela, (128, 0, 0), self.botao_sair)
+            voltar = self.fonte.render('Sair', True, (255, 255, 255))
+            tela.blit(voltar, (self.botao_sair.x + 90, self.botao_sair.y + 10))
+
+        elif self.mostrar_como_jogar:
+            texto_como_jogar = self.fonte.render('Para jogar puxe a bolinha com o cursor como se fosse',True, (255, 255, 255))
+            texto_como_jogar2 = self.fonte.render('um estilingue e acerte os pontos verde', True, (255, 255, 255))
+
+            tela.blit(texto_como_jogar, (50, 200))
+            tela.blit(texto_como_jogar2, (50, 255))
+            
             pygame.draw.rect(tela, (128, 0, 0), self.botao_voltar)
             voltar = self.fonte.render('Voltar', True, (255, 255, 255))
             tela.blit(voltar, (self.botao_voltar.x + 90, self.botao_voltar.y + 10))
@@ -41,4 +52,6 @@ class Menu(pygame.sprite.Sprite):
                 return 'comecar'
             elif self.botao_como_jogar.collidepoint(pos):
                 self.mostrar_como_jogar = True
+            elif self.botao_sair.collidepoint(pos):
+                return 'sair'
         return None

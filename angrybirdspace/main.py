@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import os
 from classe_jogador import Bola
 from classe_inimigo import Inimigo
 from classe_menu import Menu
@@ -14,6 +15,11 @@ class Game:
         pygame.display.set_caption("Angry Birds Space")
         self.clock = pygame.time.Clock()
         self.running = True
+
+        # Fundo do jogo
+        caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'espaco.webp')
+        self.fundo = pygame.image.load(caminho)
+        self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
 
         # Bola
         self.bola = Bola(150, self.altura - 150, 15)
@@ -38,13 +44,22 @@ class Game:
         
     def run(self):
         while self.running:
-            if self.menu.mostrar:
+            if self.menu.mostrar_win:
                 self.menu.draw(self.screen)
                 for evento in pygame.event.get():
                     if evento.type == pygame.QUIT:
                         self.running = False
                     elif evento.type == pygame.MOUSEBUTTONDOWN:
-                        # Verifica se clicou no botão de jogar
+                        acao = self.menu.checar_clique(evento.pos)
+                        if acao == 'sair':
+                            self.running = False
+
+            elif self.menu.mostrar:
+                self.menu.draw(self.screen)
+                for evento in pygame.event.get():
+                    if evento.type == pygame.QUIT:
+                        self.running = False
+                    elif evento.type == pygame.MOUSEBUTTONDOWN:
                         acao = self.menu.checar_clique(evento.pos)
                         if acao == 'comecar':
                             self.menu.mostrar = False
@@ -56,11 +71,13 @@ class Game:
                         # Verifica o clique para poder arrastar a bola
                         if np.linalg.norm(np.array(evento.pos) - self.bola.pos) <= self.bola.raio:
                             self.arrastando = True
+                            self.bola.arrastando = True
                             self.pos_inicial = self.bola.pos.copy()
                     elif evento.type == pygame.MOUSEBUTTONUP:
                         # Verifica se soltou o clique para lançar a bola
                         if self.arrastando:
                             self.arrastando = False
+                            self.bola.arrastando = False
                             destino = np.array(evento.pos, dtype=np.float64)
                             vetor_direcao = self.pos_inicial - destino
                             comprimento = np.linalg.norm(vetor_direcao)
@@ -85,14 +102,16 @@ class Game:
                         self.inimigos.remove(inimigo)
                         break
 
+                if not self.inimigos:
+                    self.menu.mostrar_win = True
+
                 # Verifica colisão com objetos
                 colisao_objeto = pygame.sprite.spritecollide(self.bola, self.objetos, False)
-                if colisao_objeto:
-                    self.bola.velocidade = np.array([0.0, 0.0])
+                if colisao_objeto and not self.arrastando:
+                    self.bola.resetar()
 
-                self.screen.fill((0, 0, 0))
-                
-                # Desenhar objetos
+                # Desenhar o fundo e os objetos
+                self.screen.blit(self.fundo, (0, 0))
                 self.atracao.draw(self.screen)
                 self.bola.draw(self.screen)
                 self.inimigos.draw(self.screen)
@@ -101,7 +120,7 @@ class Game:
             pygame.display.update()
             self.clock.tick(60)
 
-        pygame.quit()
+    pygame.quit()
 
 if __name__ == '__main__':
     game = Game()
