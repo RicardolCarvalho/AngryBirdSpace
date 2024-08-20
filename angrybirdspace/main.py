@@ -22,7 +22,7 @@ class Game:
         self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
  
         # Bola
-        self.bola = Bola(150, self.altura - 150, 15)
+        self.bola = Bola(150, self.altura - 150, 30)
         self.arrastando = False
         self.controle_velocidade = 0.1
 

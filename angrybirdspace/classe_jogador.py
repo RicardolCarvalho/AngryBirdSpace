@@ -5,7 +5,7 @@ import os
 class Bola(pygame.sprite.Sprite):
     def __init__(self, x, y, raio):
         pygame.sprite.Sprite.__init__(self)
-        caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'passaro.png')
+        caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'alien.png')
         self.raio = raio
         self.image = pygame.image.load(caminho)
         self.image = pygame.transform.scale(self.image, (raio * 2, raio * 2))
