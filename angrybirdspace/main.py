@@ -20,7 +20,7 @@ class Game:
         caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'espaco.webp')
         self.fundo = pygame.image.load(caminho)
         self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
-
+ 
         # Bola
         self.bola = Bola(150, self.altura - 150, 15)
         self.arrastando = False
