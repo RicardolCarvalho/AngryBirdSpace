@@ -28,13 +28,14 @@ class Game:
 
         # Inimigos
         self.inimigos = pygame.sprite.Group()
-        self.inimigos.add(Inimigo(600, self.altura - 100, 50))
-        self.inimigos.add(Inimigo(900, self.altura - 200, 50))
+        self.inimigos.add(Inimigo(1100, 565, 50))
+        self.inimigos.add(Inimigo(725, 65, 50))
 
         # Objetos
         self.objetos = pygame.sprite.Group()
-        self.objetos.add(Objeto(300, self.altura - 150, 100, 50))
-        self.objetos.add(Objeto(500, self.altura - 250, 150, 30))
+        self.objetos.add(Objeto(575, 500, 50, 150))
+        self.objetos.add(Objeto(915, 590 , 300, 120))
+        self.objetos.add(Objeto(650, 5, 150, 50))
 
         # Objeto de atração
         self.atracao = Sol(posicao=(self.largura // 2, self.altura // 2))

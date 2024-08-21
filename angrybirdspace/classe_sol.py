@@ -1,10 +1,15 @@
 import pygame
 import numpy as np
+import os
 
 class Sol(pygame.sprite.Sprite):
-    def __init__(self, posicao, raio=10):
+    def __init__(self, posicao, raio=50):
+        pygame.sprite.Sprite.__init__(self)
+        caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'sol.webp')
+        self.image = pygame.image.load(caminho)
+        self.image = pygame.transform.scale(self.image, (raio, raio))
         self.posicao = np.array(posicao, dtype=np.float64)
-        self.forca_atracao = 1000
+        self.forca_atracao = 5000
         self.raio = raio
 
     def aplicar_forca(self, bola):
@@ -12,8 +17,10 @@ class Sol(pygame.sprite.Sprite):
         distancia = np.linalg.norm(vetor)
 
         if distancia > 0:
-            aceleracao = (self.forca_atracao / distancia**2) * (vetor / distancia)
+            aceleracao = (self.forca_atracao / (distancia**2)) * (vetor / distancia)
             bola.velocidade += aceleracao
 
+
     def draw(self, tela):
-        pygame.draw.circle(tela, (102, 102, 102), self.posicao.astype(int), self.raio)
+        tela.blit(self.image, self.posicao - self.raio)
+        # pygame.draw.circle(tela, (102, 102, 102), self.posicao.astype(int), self.raio)
