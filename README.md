@@ -24,11 +24,14 @@ Você pode instalar o projeto diretamente usando o `pip`. Não é necessário cl
     ANGRYBIRDSPACE/
     │
     ├── angrybirdspace
+    │   ├── img/
+    │   ├── __init__.py
     │   ├── classe_inimigo.py
     │   ├── classe_jogador.py
     │   ├── classe_menu.py
+    │   ├── classe_objeto.py
+    │   ├── classe_sol.py
     │   └── main.py
-    ├──  img/
     ├── README.md
     ├── setup.py
     └── requirements.txt

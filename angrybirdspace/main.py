@@ -1,11 +1,11 @@
 import pygame
 import numpy as np
 import os
-from classe_jogador import Bola
-from classe_inimigo import Inimigo
-from classe_menu import Menu
-from classe_objeto import Objeto
-from classe_sol import Sol
+from angrybirdspace.classe_jogador import Bola
+from angrybirdspace.classe_inimigo import Inimigo
+from angrybirdspace.classe_menu import Menu
+from angrybirdspace.classe_objeto import Objeto
+from angrybirdspace.classe_sol import Sol
 
 class Game:
     def __init__(self):
@@ -17,7 +17,8 @@ class Game:
         self.running = True
 
         # Fundo do jogo
-        caminho = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'img', 'espaco.webp')
+        caminho = os.path.join('angrybirdspace', 'img', 'espaco.webp')
+        print(caminho)
         self.fundo = pygame.image.load(caminho)
         self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
  
@@ -122,6 +123,10 @@ class Game:
             self.clock.tick(60)
 
     pygame.quit()
+
+def main():
+    game = Game()
+    game.run()
 
 if __name__ == '__main__':
     game = Game()
