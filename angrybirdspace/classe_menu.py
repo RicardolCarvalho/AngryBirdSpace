@@ -1,8 +1,11 @@
 import pygame
-
+import os
 class Menu(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        caminho = os.path.join('angrybirdspace', 'img', 'fundo.png')
+        self.image = pygame.image.load(caminho)
+        self.fundo = pygame.transform.scale(self.image, (1200, 700))
         self.fonte = pygame.font.SysFont('arial', 40)
         self.fonte_menor = pygame.font.SysFont('arial', 30)
         self.botao_jogar = pygame.Rect(450, 300, 300, 60)
@@ -13,7 +16,7 @@ class Menu(pygame.sprite.Sprite):
         self.mostrar_win = False
 
     def draw(self, tela):
-        tela.fill((0, 0, 0))
+        tela.blit(self.fundo, (0,0))
 
         if self.mostrar_win:
             texto_win = self.fonte.render('Você venceu!', True, (255, 255, 255))
