@@ -18,7 +18,6 @@ class Game:
 
         # Fundo do jogo
         caminho = os.path.join('angrybirdspace', 'img', 'espaco.webp')
-        print(caminho)
         self.fundo = pygame.image.load(caminho)
         self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
  
@@ -44,6 +43,26 @@ class Game:
         self.menu = Menu()
         self.menu.mostrar = True
         
+        self.trajetoria = []  # Lista para armazenar a trajetória
+
+    def calcular_trajetoria(self):
+        self.trajetoria = []
+        dt = 0.1  # Intervalo de tempo para calcular a trajetória
+        t = 0
+        while True:
+            # Calcula a posição da bola no tempo t
+            x = self.bola.inicial_pos[0] + self.bola.velocidade[0] * t
+            y = self.bola.inicial_pos[1] + self.bola.velocidade[1] * t + 0.5 * self.bola.gravidade[1] * t ** 2
+
+            # Adiciona a posição à trajetória
+            self.trajetoria.append((x, y))
+
+            # Verifica se a bola saiu da tela
+            if x < 0 or x > self.largura or y > self.altura:
+                break
+
+            t += dt
+
     def run(self):
         while self.running:
             if self.menu.mostrar_win:
@@ -75,6 +94,14 @@ class Game:
                             self.arrastando = True
                             self.bola.arrastando = True
                             self.pos_inicial = self.bola.pos.copy()
+                            # Recalcula a trajetória ao começar o arrasto
+                            vetor_direcao = self.pos_inicial - np.array(evento.pos, dtype=np.float64)
+                            comprimento = np.linalg.norm(vetor_direcao)
+                            if comprimento > 0:
+                                vetor_direcao = vetor_direcao / comprimento
+                                self.bola.velocidade = vetor_direcao * comprimento * self.controle_velocidade
+                                self.calcular_trajetoria()
+
                     elif evento.type == pygame.MOUSEBUTTONUP:
                         # Verifica se soltou o clique para lançar a bola
                         if self.arrastando:
@@ -83,14 +110,21 @@ class Game:
                             destino = np.array(evento.pos, dtype=np.float64)
                             vetor_direcao = self.pos_inicial - destino
                             comprimento = np.linalg.norm(vetor_direcao)
-                            # Verifica se a bola foi arrastada para longe o suficiente para ser lançada
                             if comprimento > 0:
                                 vetor_direcao = vetor_direcao / comprimento
                                 self.bola.velocidade = vetor_direcao * comprimento * self.controle_velocidade
                                 self.bola.lancamento = True
+                                self.calcular_trajetoria()  # Recalcula a trajetória após o lançamento
 
                     elif evento.type == pygame.MOUSEMOTION and self.arrastando:
                         self.bola.pos = np.array(evento.pos, dtype=np.float64)
+                        # Recalcula a trajetória enquanto arrasta
+                        vetor_direcao = self.pos_inicial - self.bola.pos
+                        comprimento = np.linalg.norm(vetor_direcao)
+                        if comprimento > 0:
+                            vetor_direcao = vetor_direcao / comprimento
+                            self.bola.velocidade = vetor_direcao * comprimento * self.controle_velocidade
+                            self.calcular_trajetoria()
 
                 # Atualizar a bola
                 self.bola.update(self.largura, self.altura)
@@ -119,15 +153,20 @@ class Game:
                 self.inimigos.draw(self.screen)
                 self.objetos.draw(self.screen)
 
+                # Desenhar a trajetória
+                if self.trajetoria and self.arrastando:
+                    tamanho = len(self.trajetoria)
+                    metade = (tamanho // 2) // 2
+                    pygame.draw.lines(self.screen, (255, 255, 0), False, self.trajetoria[:metade], 2)
+
             pygame.display.update()
             self.clock.tick(60)
 
-    pygame.quit()
+        pygame.quit()
 
 def main():
     game = Game()
     game.run()
 
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    main()
