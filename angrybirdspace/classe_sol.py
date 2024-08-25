@@ -5,7 +5,8 @@ import os
 class Sol(pygame.sprite.Sprite):
     def __init__(self, posicao, raio=50):
         pygame.sprite.Sprite.__init__(self)
-        caminho = os.path.join('angrybirdspace', 'img', 'sol.webp')
+        path = os.path.dirname(os.path.abspath(__file__))
+        caminho = os.path.join(path, 'img', 'sol.webp')
         self.image = pygame.image.load(caminho)
         self.image = pygame.transform.scale(self.image, (raio, raio))
         self.posicao = np.array(posicao, dtype=np.float64)

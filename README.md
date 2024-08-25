@@ -17,7 +17,7 @@ Você pode instalar o projeto diretamente usando o `pip`. Não é necessário cl
     ```
 2. Execute o jogo:
     ```bash
-    python -m angrybirdspace
+    angrybirdspace
     ```
 3. Estrutura do projeto:
     ```bash
