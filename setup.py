@@ -18,7 +18,7 @@ setup(
     python_requires='>=3.11',
 
     package_data={
-        '', ['img/*.png', 'img/*.jpg', 'img/*.webp', 'angrybirdspace/img/*.png', 'angrybirdspace/img/*.jpg', 'angrybirdspace/img/*.webp']
+        'angrybirdspace', ['img/*.png', 'img/*.webp', 'angrybirdspace/img/*.png', 'angrybirdspace/img/*.webp']
     },
 
     entry_points={
