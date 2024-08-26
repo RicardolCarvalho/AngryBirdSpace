@@ -2,6 +2,8 @@ import pygame
 import numpy as np
 import os
 
+
+
 class Sol(pygame.sprite.Sprite):
     def __init__(self, posicao, raio=50):
         pygame.sprite.Sprite.__init__(self)
