@@ -1,8 +1,5 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
-
 setup(
     name="angrybirdspace",
     version="0.1.0",
@@ -11,7 +8,7 @@ setup(
     description="Uma recriação do Angry Birds Space em Pygame.",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/RicardolCarvalho/AngryBirdSpace",
+    url="https://github.com/RicardolCarvalho/AngryBirdSpace.git",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -19,6 +16,10 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.11',
+
+    package_data={
+        '', ['img/*.png', 'img/*.jpg', 'img/*.webp', 'angrybirdspace/img/*.png', 'angrybirdspace/img/*.jpg', 'angrybirdspace/img/*.webp']
+    },
 
     entry_points={
         'console_scripts': [

@@ -17,7 +17,8 @@ class Game:
         self.running = True
 
         # Fundo do jogo
-        caminho = os.path.join('angrybirdspace', 'img', 'espaco.webp')
+        path = os.path.dirname(os.path.abspath(__file__))
+        caminho = os.path.join(path, 'img', 'espaco.webp')
         self.fundo = pygame.image.load(caminho)
         self.fundo = pygame.transform.scale(self.fundo, (self.largura, self.altura))
  
