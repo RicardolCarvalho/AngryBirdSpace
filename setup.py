@@ -27,6 +27,7 @@ setup(
         ]
     },
     install_requires=[
-        line.strip() for line in open('requirements.txt').readlines()
+        'pygame',
+        'numpy'
     ]
 )
